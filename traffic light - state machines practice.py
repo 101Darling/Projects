@@ -66,7 +66,7 @@ def advance_state_machine():
         state_num = 0
 
 # Bind the event handler to a timer
-wn.onkey(advance_state_machine(),"space")
+wn.onkey(advance_state_machine,"space")
 
 wn.listen() # Listen for events
 wn.mainloop()
