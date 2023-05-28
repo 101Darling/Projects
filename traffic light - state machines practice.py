@@ -53,26 +53,20 @@ state_num = 0
 def advance_state_machine():
     global state_num 
     if state_num == 0: # Transition from state 0 to state 1
-        # Bind the event handler to a timer
-        wn.ontimer(advance_state_machine,1000)
         tess.forward(70)
         tess.fillcolor("orange")
         state_num = 1
     elif state_num == 1: # Transition from state 1 to state 2
         tess.forward(70)
         tess.fillcolor("red")
-        # Bind the event handler to a timer
-        wn.ontimer(advance_state_machine,1000)
         state_num = 2
     else: # Transition from state 2 to state 0
         tess.back(140)
         tess.fillcolor("green")
         state_num = 0
-        # Bind the event handler to a timer
-        wn.ontimer(advance_state_machine,1000)
 
 # Bind the event handler to a timer
-advance_state_machine()
+wn.onkey(advance_state_machine(),"space")
 
 wn.listen() # Listen for events
 wn.mainloop()
