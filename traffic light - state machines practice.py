@@ -8,8 +8,11 @@ Purpose:
     The traffic light flashes will have several iterations for further practice with state machines.
 
     UPDATE:
-    For this iteration, modify the program now so that the lights don’t disappear: they are either
-    on, or off. But when they’re off, they’re still visible.
+    For this iteration, we will have four states in their state
+    machine: Green, then Green and Orange together, then Orange only, and then Red. Ad-
+    ditionally, they want different times spent in each state. The machine should spend 3
+    seconds in the Green state, followed by one second in the Green+Orange state, then one
+    second in the Orange state, and then 2 seconds in the Red state.
 '''
 
 import turtle # Tess becomes a traffic light.
@@ -71,7 +74,7 @@ alex_R.goto(40.00,190.00)
 alex_R.showturtle()
 
 # A traffic light is a kind of state machine with three states,
-# Green, Orange, Red. We number these states 0, 1, 2
+# Green, Orange, Red. We number these states 0, 1, 2,3
 # When the machine changes state, we change the turtle visiblitiy
 #...given the 3 different turtle colors
 
@@ -95,20 +98,28 @@ def advance_state_machine():
             alex_Y.fillcolor("#8B4000")
             alex_R.fillcolor("#8b0000")
             state_num = 1
-            wn.ontimer(advance_state_machine,600)
+            wn.ontimer(advance_state_machine,3000)
         elif state_num == 1: # Transition from state 1 to state 2 while one light remains visible on a timer
+            alex_Y.fillcolor("orange")
+            tess.fillcolor("green")
+            alex_R.fillcolor("#8b0000")
+            state_num = 2
+            wn.ontimer(advance_state_machine,1000)
+            
+        elif state_num == 2: # Transition from state 1 to state 2 while one light remains visible on a timer
             alex_Y.fillcolor("orange")
             alex_R.fillcolor("#8b0000")
             tess.fillcolor("#023020")
-            state_num = 2
-            wn.ontimer(advance_state_machine,600)
+            state_num = 3
+            wn.ontimer(advance_state_machine,1000)
+            
         else: # Transition from state 2 to state 0 while one light remains visible on a timer
             alex_R.fillcolor("red")
             alex_Y.fillcolor("#8B4000")
             tess.fillcolor("#023020")
             state_num = 0
-            wn.ontimer(advance_state_machine,600)
-            counter += 1 #change global counter variable by adding +1
+            wn.ontimer(advance_state_machine,2000)
+            counter += 1 #change global counter variable
     else:
         wn.bye() #Shut the graphics window down
     
