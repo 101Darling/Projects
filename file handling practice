@@ -1,0 +1,133 @@
+# Author: Darling Ngoh 
+# Email: dngoh1@student.gsu.edu
+'''
+Purpose:
+    Practice file handling in Python, including creating, reading,
+appending, and searching text files, and converting text content to a CSV file.
+As well as handling errors and exceptions.
+'''
+
+import csv
+import time
+
+def chooseOption():
+    print('--- --- --- Main Menu --- --- ---')
+    option = input('Choose option:\n' \
+         '[1] Create new text file\n' \
+         '[2] Read text file content\n'
+         '[3] Append to text file\n'
+         '[4] Search text file\n' \
+         '[5] Export to CSV\n' \
+         '[6] Exit program\n'
+         'option = ')
+    return option
+
+
+def create_new_text_file():
+    try:
+        # Prompt user for a new text file name
+        file_name = input("Enter the name of the new text file: ")
+        
+        # Create a new text file with the given name
+        with open(file_name, 'w') as file:
+                print(f"Text file '{file_name}' created successfully.")
+    except Exception as e:
+        # Handle errors during the CREATE operation
+        print("An error occurred during the CREATE operation!")
+        print(f"Error Details: {e}")
+        
+def read_text_file_content():
+    try:
+        # Prompt user for the name of an existing text file
+        file_name = input("Enter the name of the existing text file: ")
+        
+        # Display the contents of the file on the screen
+        with open(file_name, 'r') as file:
+            content = file.read()
+            print(f"Content of '{file_name}':\n{content}")
+    except Exception as e:
+        # Handle errors during the READ operation
+        print("An error occurred during the READ operation!")
+        print(f"Error Details: {e}")
+
+def append_to_text_file():
+    try:
+        # Prompt user for the name of an existing text file and text to be added
+        file_name = input("Enter the name of the existing text file: ")
+        text_to_append = input("Enter the text to be added: ")
+        
+        # Append the text to the existing file
+        with open(file_name, 'a') as file:
+            file.write(text_to_append + '\n')
+            print("Text appended successfully.")
+    except Exception as e:
+        # Handle errors during the APPEND operation
+        print("An error occurred during the APPEND operation!")
+        print(f"Error Details: {e}")
+
+def find_text_within_text_file():
+    try:
+        # Prompt user for the name of an existing text file and text to be searched
+        file_name = input("Enter the name of the existing text file: ")
+        text_to_search = input("Enter the text to be searched: ")
+        
+        # Search for the text within the file
+        with open(file_name, 'r') as file:
+            content = file.read()
+            index = content.find(text_to_search)
+            if index != -1:
+                print(f"Text found at index: {index}")
+            else:
+                print("No results")
+    except Exception as e:
+        # Handle errors during the FIND operation
+        print("An error occurred during the FIND operation!")
+        print(f"Error Details: {e}")
+
+def export_to_csv():
+    try:
+        # Prompt user for the names of the text file and CSV file
+        text_file_name = input("Enter the name of the text file to read data from: ")
+        csv_file_name = input("Enter the name of the CSV file to export data to: ")
+        
+        # Read the contents of the text file and write to the CSV file
+        with open(text_file_name, 'r') as text_file:
+            content = text_file.read()
+            
+            with open(csv_file_name, 'w', newline='') as csv_file:
+                csv_writer = csv.writer(csv_file)
+                csv_writer.writerow(["Data"])
+                csv_writer.writerow([content])
+                
+                print(f"Data exported to '{csv_file_name}' successfully.")
+    except Exception as e:
+        # Handle errors during the EXPORT operation
+        print("An error occurred during the EXPORT operation!")
+        print(f"Error Details: {e}")
+
+option = chooseOption()
+while option != '6':
+    if option == '1': #Create
+        create_new_text_file()
+                
+    elif option == '2':  # Read
+        read_text_file_content()
+    
+    elif option == '3':  # Append
+        append_to_text_file()
+        
+    elif option == '4':  # Find
+        find_text_within_text_file()
+        
+    elif option == '5':  # Export
+        export_to_csv()
+
+    else:
+        print('Invalid option!')
+    time.sleep(1.0)
+    print('Going Back to main menu ',end='')
+    for i in range(4):
+        print('.', end='')
+        time.sleep(.4)
+    print()
+    option = chooseOption()
