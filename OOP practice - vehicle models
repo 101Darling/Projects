@@ -1,0 +1,89 @@
+# Author: Darling Ngoh
+# Date: 9/24/23
+'''
+Prolog:
+  Simple OOP practice with different vehicle models.
+'''
+
+class Vehicle:
+    def __init__(self, make, model, year):
+        self.make = make
+        self.model = model
+        self.year = year
+
+    def get_info(self):
+        return f"Make: {self.make}, Model: {self.model}, Year: {self.year}"
+
+    def __lt__(self, other):
+        return self.year < other.year
+
+class Car(Vehicle):
+    def __init__(self, make, model, year, num_doors):
+        super().__init__(make, model, year)
+        self.num_doors = num_doors
+
+    def honk(self):
+        print("Honk! Honk! From Car")
+
+    def get_info(self):
+        return f"{super().get_info()}, Number of Doors: {self.num_doors}"
+
+class Motorcycle(Vehicle):
+    def __init__(self, make, model, year, bike_type):
+        super().__init__(make, model, year)
+        self.type = bike_type
+
+    def honk(self):
+        print("Honk! Honk! From Motorcycle")
+
+    def get_info(self):
+        return f"{super().get_info()}, Type: {self.type}"
+
+class Truck(Vehicle):
+    def __init__(self, make, model, year, capacity):
+        super().__init__(make, model, year)
+        self.capacity = capacity
+
+    def honk(self):
+        print("Honk! Honk! From Truck")
+
+    def get_info(self):
+        return f"{super().get_info()}, Capacity: {self.capacity}"
+
+    def __lt__(self, other):
+        return self.capacity < other.capacity
+
+class PickupTruck(Car, Truck):
+    def __init__(self, make, model, year, num_doors, capacity, has_cover):
+        Car.__init__(self, make, model, year, num_doors)
+        Truck.__init__(self, make, model, year, capacity=capacity)
+        self.has_cover = has_cover
+
+    def get_info(self):
+        car_info = Car.get_info(self)
+        truck_info = Truck.get_info(self)
+        return f"{car_info}, {truck_info}, Has Cover: {self.has_cover}"
+    
+# Create objects of each class    
+car1 = Car("Toyota", "Camry", 2020, 4)
+motorcycle1 = Motorcycle("Honda", "CBR", 2022, "Sports")
+truck1 = Truck("Ford", "F150", 2019, 5000)
+pickup_truck1 = PickupTruck("Chevrolet", "Silverado", 2021, 4, 6000, True)
+
+# Call honk() method on each object
+car1.honk()
+motorcycle1.honk()
+truck1.honk()
+pickup_truck1.honk()
+
+# Call get_info() method on each object and print the result
+print(car1.get_info())
+print(motorcycle1.get_info())
+print(truck1.get_info())
+print(pickup_truck1.get_info())
+
+# Compare Truck and PickupTruck objects using the less than operator
+if truck1 < pickup_truck1:
+    print("Truck has a smaller capacity than PickupTruck")
+else:
+    print("PickupTruck has a smaller capacity than Truck")
