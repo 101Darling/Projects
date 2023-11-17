@@ -1,0 +1,35 @@
+# Author: Darling Ngoh
+'''
+Purpose:
+    Practice data visualization using matplotlib and pandas.
+    Reference data will be monthly temperatures csv file
+'''
+#importing matplotlib package and acquire pyplot library
+import matplotlib.pyplot as plt
+#import pandas package
+import pandas as pd
+
+#read csv to pandas dataframe
+temperature = pd.read_csv('atlanta_weather.csv')
+
+#subsetting pandas series
+months = temperature['Month']
+high_temp = temperature['High']
+low_temp = temperature['Low']
+
+#create plot view
+plt.plot()
+#update plot title x and y label
+plt.title('Atlanta - Monthly Temperature', fontsize=20)
+plt.xlabel('Month', fontsize=16)
+plt.ylabel('Temperature (Fahrenheit)', fontsize=16)
+
+#plotting monthly tempratures
+plt.plot(months, high_temp, 'b--o', label='High')
+plt.plot(months, low_temp, 'g:^', label='Low')
+
+#showcasing highest temp and legend
+plt.annotate('Highest temp of the year.', arrowprops=dict(facecolor='red'), xy=(6, 89), xytext=(4, 75))
+plt.legend(fontsize=20)
+
+plt.show()
