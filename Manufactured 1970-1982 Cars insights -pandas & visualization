@@ -1,0 +1,105 @@
+# Author: Darling Ngoh
+'''
+Purpose:
+    Deriving certain insights from a csv file containing a list of manufactured cars from 1970-1982
+    by utilizing pandas dataframe and visualization with matplot
+'''
+import pandas as pd
+import matplotlib.pyplot as plt
+
+#1 Reads the csv file into a Pandas DataFrame object. Print the shape of that dataframe.
+cars = pd.read_csv('car_data.csv')
+print('Shape of the dataframe:', cars.shape)
+
+#2 Print the names of the japanese cars having v6 engines
+#first acquire subset of cars made in japan and then further subset into japan v6 cars
+jap_cars = cars[cars['origin'] == 'japan']
+jap_v6 = jap_cars[jap_cars['cylinders'] == 6]
+v6 = []
+#iterate through japan v6 cars and add to list
+for car in jap_v6['name']:
+    v6.append(car)
+print('Japanese v6 cars: ', v6)
+
+
+#3. Print the car names for which the horsepower data is missing.
+hrspwr = cars['horsepower']
+missing_val = []
+count = 0
+counters = []
+#find indexes of missing horsepower values
+for val in hrspwr:
+    if val > 0.0:
+        count += 1
+    else:
+        missing_val.append(count)
+        count += 1
+#initialize list to store names of cars with missing horsepower values
+cars_missingHP = []
+name = cars['name']
+#iterate through list of missing values indexes to locate name and add to list
+for num in missing_val:
+    cars_missingHP.append(name[num])
+print('Cars with missing horsepower data: ', cars_missingHP)
+
+
+#4. Print the number of cars having mpg >= 20.
+mpg = cars[cars['mpg'] >= 20]
+print('Number of cars having mpg >= 20: ', len(mpg))
+
+
+#5. Print the name of the car which have the highest mpg.
+mpg = cars['mpg']
+mpg_sum = []
+#convert values of mpg from dataframe into list
+for num in mpg:
+    mpg_sum.append(num)
+#retrieve highest mpg value given list max method
+highest = max(mpg_sum)
+mpg_highest = cars[cars['mpg'] == highest]
+#format the name of the highest mpg vehicle into a list
+res = []
+for char in mpg_highest['name']:
+    res.append(char)
+print('Most fuel efficient car: ', res)
+
+
+#6. Print the maximum, minimum, and average of the car weights.
+wgt = cars['weight']
+wgt_sum = []
+wgt_sum_combined = 0
+#convert values of weight from dataframe into list
+for num in wgt:
+    wgt_sum.append(num)
+    wgt_sum_combined += num
+#compute values for max, min, and avg of car weights
+highest = max(wgt_sum)
+minimum = min(wgt_sum)
+average = wgt_sum_combined / len(wgt)
+print('minimum weight: ', minimum, ',', 'maximum weight: ', highest, ',', 'average weight: ', '%.2f' % average)
+
+
+#7. Drop the rows from the dataframe which have any missing value. Print the shape of the resulting dataframe.
+result = cars.dropna(axis=0)
+print('Shape after removing the missing values: ', result.shape)
+
+
+#8. Create a plot with two subplots: the first one showing mpg vs. weight, and the second one showing mpg vs. displacement.
+#retrieve mpg
+mpg = cars['mpg']
+#retrieve weight
+wgt = cars['weight']
+#retrieve displacement
+disp = cars['displacement']
+#showcase mpg vs weight
+plt.title('MPG Placements for 1970-1982 cars')
+plt.subplot(2, 1, 1)
+plt.xlabel('MPG')
+plt.ylabel('WEIGHT')
+plt.scatter(mpg, wgt, label='mpg vs weight')
+#showcase mpg vs. displacement
+plt.subplot(2, 1, 2)
+plt.xlabel('MPG')
+plt.ylabel('DISPLACEMENT')
+plt.scatter(mpg, disp, label='mpg vs displacement')
+plt.show()
